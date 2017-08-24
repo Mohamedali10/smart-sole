@@ -91,25 +91,25 @@ export class HomePage {
       });
   }
 
-  // get_revolution_number() {
-  //   this.ble.read(this.id, this.rev_service, this.rev_char)
-  //     .then(revolution_data => {
-  //       this.last_revolution_nb = new Uint32Array(revolution_data);
-  //       console.log(' last revolution nb :' + this.last_revolution_nb);
-  //     });
+  get_revolution_number() {
+    this.ble.read(this.id, this.rev_service, this.rev_char)
+      .then(revolution_data => {
+        this.last_revolution_nb = new Uint32Array(revolution_data);
+        console.log(' last revolution nb :' + this.last_revolution_nb);
+      });
 
-  //   console.log('start getting revonumber');
-  //   this.ble.startNotification(this.id, this.rev_service, this.rev_char)
-  //     .subscribe(revolution_data => {
-  //       var revolution__data_view = new Uint32Array(revolution_data);
-  //       var nb = (revolution__data_view[0] & 0xff) +
-  //         ((revolution__data_view[1] & 0xff) << 8) +
-  //         ((revolution__data_view[2] & 0xff) << 16) +
-  //         ((revolution__data_view[3] & 0xff) << 24);
-  //       this.revolution_nb = nb - this.last_revolution_nb;
-  //       console.log('rev_c:' + this.revolution_nb);
-  //     });
-  // }
+    console.log('start getting revonumber');
+    this.ble.startNotification(this.id, this.rev_service, this.rev_char)
+      .subscribe(revolution_data => {
+        var revolution__data_view = new Uint32Array(revolution_data);
+        var nb = (revolution__data_view[0] & 0xff) +
+          ((revolution__data_view[1] & 0xff) << 8) +
+          ((revolution__data_view[2] & 0xff) << 16) +
+          ((revolution__data_view[3] & 0xff) << 24);
+        this.revolution_nb = nb - this.last_revolution_nb;
+        console.log('rev_c:' + this.revolution_nb);
+      });
+  }
 
   get_cadence() {
     this.navCtrl.push(CadencePage);

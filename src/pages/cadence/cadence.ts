@@ -8,16 +8,11 @@ import { BLE } from '@ionic-native/ble';
 })
 
 export class CadencePage {
-
-
-  /*------- Intermediate Vars --------*/
-  id: any;
-  cadns_service: any;
-  cadns_char: any;
   cadns_val: any = 0;
   show_cd: boolean = false;
   chart: any;
-  options : any;
+  options: any;
+
   constructor(public navCtrl: NavController, private event: Events, public navParams: NavParams, public ble: BLE) {
     this.options = {
       chart: {
@@ -111,38 +106,21 @@ export class CadencePage {
         }
       }]
     };
-    console.log('teftfsvshj');
+    /*after setting gauge option subscribe to cadence notif*/
+    console.log('gauge setted');
+    this.event.subscribe('gaugeVal', (data) => { this.UpdateGauge(data); });
+  }
 
-    this.event.subscribe('gaugeVal',(data)=>{this.UpdateGauge(data);});
-  }
-saveInstance(chartInstance): void {
-     this.chart = chartInstance;
-}
-  UpdateGauge(data: any) {
-//var that = this;
-    this.chart.series[0].setData([]);
-    let nb = parseInt(data);
-    console.log('UpdateGauge' + data);
-    this.chart.series[0].setData([nb]);
-  }
+
 
 
   ionViewDidEnter() {
     console.log('ionViewDidEnter CadencePage');
-    this.CadenceVal()
+    this.CadenceVal();
   }
-defaultval(){
-setInterval(()=>{
-var inc = Math.round((Math.random() - 0.5) * 20);
-console.log('fuhf'+inc);
-if (inc >0 || inc < 200)
-this.event.publish('gaugeVal',inc+50);
-},3000)
 
-
-}
   CadenceVal() {
-    console.log('start getting cadstartence');
+    console.log('start getting cads values');
     this.ble.startNotification("F5:56:71:04:1B:60"
       , "99ddcda5-a80c-4f94-be5d-c66b9fba40cf", "99dd0305-a80c-4f94-be5d-c66b9fba40cf")
       .subscribe(cadence => {
@@ -152,7 +130,15 @@ this.event.publish('gaugeVal',inc+50);
       },
       error => { console.log('thisispb:' + error); });
   }
-
+  //action to execute each time a cadence val captured
+  UpdateGauge(data: any) {
+    this.chart.series[0].setData([]);
+    console.log('UpdateGauge' + data);
+    this.chart.series[0].setData([data]);
+  }
+  saveInstance(chartInstance): void {
+    this.chart = chartInstance;
+  }
   onData(buffer) {
     var data = new Uint8Array(buffer);
     return data;
