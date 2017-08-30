@@ -1,12 +1,11 @@
 <ion-header>
 
     <ion-navbar>
-        <ion-title>cadence</ion-title>
+        <ion-title>Cadence</ion-title>
     </ion-navbar>
 
 </ion-header>
 
-
 <ion-content padding>
-    <chart [options]="options" style=" display : block " (load)="saveInstance($event.context)"></chart>
+    <chart [options]="options" style="display:block" (load)="saveInstance($event.context)"></chart>
 </ion-content>

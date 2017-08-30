@@ -1,17 +1,29 @@
 <ion-header>
     <ion-navbar>
-        <ion-title>
-            Ionic Blank
-        </ion-title>
+        <div *ngIf="isValid;else other">
+            <img src="assets/img/battery_{{batteryLevel}}.png" style="width:15%;height:15%" />
+            <div style="position: absolute;text-align:left;width: 100%;padding: 13px;top:10% "> {{batteryLevel}}%
+            </div>
+        </div>
+        <ng-template #other>
+            <ion-spinner></ion-spinner>
+        </ng-template>
     </ion-navbar>
+    <ion-title style="text-align:center ">Sole Cycling</ion-title>
+
 </ion-header>
-<ion-content>
-    <p>ghiujgroio</p>
-
-
+<ion-content padding>
+    <br>
     <button ion-button block color="secondary" (click)="get_revolution_number()"> Get Revolution Number</button>
-    <button ion-button block color="secondary" (click)="get_cadence()"> CADENCE </button>
+    <div *ngIf="isRev">
+        <ion-grid text-center>
+            <ion-row>
+                <ion-col width-67>Current Revolution Number</ion-col>
+                <ion-col width-33>{{revolution_nb}}</ion-col>
+            </ion-row>
+        </ion-grid>
+    </div>
 
+    <button ion-button block color="secondary" (click)="get_cadence()"> CADENCE </button>
     <button ion-button block color="secondary"> Chunk</button>
-    <p>feug</p>
 </ion-content>
